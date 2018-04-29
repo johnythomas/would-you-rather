@@ -67,10 +67,9 @@ class Login extends React.Component {
               <Divider />
               <List className={classes.userList}>
                 {[1, 2, 3, 4].map(value => (
-                  <Fragment>
+                  <Fragment key={value}>
                     <ListItem
                       onClick={this.handleToggle(value)}
-                      key={value}
                       dense
                       button
                       className={
