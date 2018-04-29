@@ -1,4 +1,5 @@
 import React from "react"
+import PropTypes from "prop-types"
 import { Drawer, Divider, List } from "material-ui"
 import { ListItem, ListItemIcon, ListItemText } from "material-ui/List"
 import { Add, TrendingUp, Home } from "@material-ui/icons"
@@ -39,5 +40,10 @@ const LeftDrawer = ({ isOpen, toggleDrawer }) => (
     </div>
   </Drawer>
 )
+
+LeftDrawer.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  toggleDrawer: PropTypes.func.isRequired
+}
 
 export default LeftDrawer

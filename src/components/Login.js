@@ -1,4 +1,5 @@
 import React, { Fragment } from "react"
+import PropTypes from "prop-types"
 import {
   Typography,
   Card,
@@ -107,6 +108,17 @@ class Login extends React.Component {
       </Fragment>
     )
   }
+}
+
+Login.propTypes = {
+  classes: PropTypes.shape({
+    orangeAvatar: PropTypes.string.isRequired,
+    notSelected: PropTypes.string.isRequired,
+    selected: PropTypes.string.isRequired,
+    userList: PropTypes.string.isRequired,
+    loginCardAction: PropTypes.string.isRequired,
+    loginHeading: PropTypes.string.isRequired
+  }).isRequired
 }
 
 export default withStyles(styles)(Login)

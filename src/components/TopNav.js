@@ -1,4 +1,5 @@
 import React from "react"
+import PropTypes from "prop-types"
 import {
   AppBar,
   Toolbar,
@@ -45,5 +46,9 @@ const TopNav = ({ toggleDrawer }) => (
     </Toolbar>
   </AppBar>
 )
+
+TopNav.propTypes = {
+  toggleDrawer: PropTypes.func.isRequired
+}
 
 export default TopNav
