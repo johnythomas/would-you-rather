@@ -1,22 +1,33 @@
 import React from "react"
-import { Grid } from "material-ui"
+import PropTypes from "prop-types"
+import { Grid, withStyles } from "material-ui"
 import Question from "./Question"
 
 const styles = {
-  padding: 20
+  spacing: {
+    padding: 20
+  }
 }
 
-const Questions = () => (
-  <Grid style={styles} container spacing={24}>
-    <Question />
-    <Question />
-    <Question />
-    <Question />
-    <Question />
-    <Question />
-    <Question />
-    <Question />
-  </Grid>
+const Questions = ({ classes }) => (
+  <div className={classes.spacing}>
+    <Grid container spacing={16}>
+      <Question />
+      <Question />
+      <Question />
+      <Question />
+      <Question />
+      <Question />
+      <Question />
+      <Question />
+    </Grid>
+  </div>
 )
 
-export default Questions
+Questions.propTypes = {
+  classes: PropTypes.shape({
+    spacing: PropTypes.string.isRequired
+  }).isRequired
+}
+
+export default withStyles(styles)(Questions)
