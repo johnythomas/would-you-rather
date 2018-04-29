@@ -6,23 +6,13 @@ import {
   Button,
   Grid,
   List,
-  LinearProgress,
-  withStyles
+  IconButton
 } from "material-ui"
-import { ListItem, ListItemIcon, ListItemText } from "material-ui/List"
 import { CardContent, CardActions, CardHeader } from "material-ui/Card"
-import { RadioButtonChecked, RadioButtonUnchecked } from "@material-ui/icons"
+import DeleteIcon from "@material-ui/icons/Delete"
+import PollOption from "./PollOption"
 
-const styles = theme => ({
-  progressBar: {
-    height: 10
-  },
-  radioBtn: {
-    color: theme.palette.secondary.light
-  }
-})
-
-const Question = ({ classes }) => (
+const Question = () => (
   <Grid item xs={12} sm={6} lg={4} xl={3}>
     <Card>
       <CardHeader
@@ -36,42 +26,25 @@ const Question = ({ classes }) => (
         </Typography>
         <div>
           <List dense>
-            <ListItem>
-              <ListItemIcon>
-                <RadioButtonChecked className={classes.radioBtn} />
-              </ListItemIcon>
-              <ListItemText>
-                Become a superhero
-                <LinearProgress
-                  className={classes.progressBar}
-                  variant="determinate"
-                  value={70}
-                />
-              </ListItemText>
-            </ListItem>
-            <ListItem>
-              <ListItemIcon>
-                <RadioButtonUnchecked className={classes.radioBtn} />
-              </ListItemIcon>
-              <ListItemText>
-                Become a supervillain
-                <LinearProgress
-                  className={classes.progressBar}
-                  variant="determinate"
-                  value={30}
-                />
-              </ListItemText>
-            </ListItem>
+            <PollOption text="Become a superhero" isChecked percent={80} />
+            <PollOption
+              text="Become a supervillain"
+              isChecked={false}
+              percent={20}
+            />
           </List>
         </div>
       </CardContent>
       <CardActions>
-        <Button size="small" color="secondary">
-          Delete
+        <Button size="small" color="primary">
+          Answer
         </Button>
+        <IconButton aria-label="Delete" style={{ marginLeft: "auto" }}>
+          <DeleteIcon />
+        </IconButton>
       </CardActions>
     </Card>
   </Grid>
 )
 
-export default withStyles(styles)(Question)
+export default Question
