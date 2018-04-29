@@ -1,7 +1,7 @@
 import React from "react"
 import { Drawer, Divider, List } from "material-ui"
 import { ListItem, ListItemIcon, ListItemText } from "material-ui/List"
-import { Add, TrendingUp } from "@material-ui/icons"
+import { Add, TrendingUp, Home } from "@material-ui/icons"
 
 const LeftDrawer = ({ isOpen, toggleDrawer }) => (
   <Drawer anchor="left" open={isOpen} onClose={toggleDrawer(false)}>
@@ -13,6 +13,13 @@ const LeftDrawer = ({ isOpen, toggleDrawer }) => (
     >
       <div className="drawer-list-item">
         <List>
+          <ListItem button>
+            <ListItemIcon>
+              <Home />
+            </ListItemIcon>
+            <ListItemText primary="Home" />
+          </ListItem>
+          <Divider />
           <ListItem button>
             <ListItemIcon>
               <TrendingUp />
