@@ -41,8 +41,8 @@ PollOption.defaultProps = {
 
 PollOption.propTypes = {
   classes: PropTypes.shape({
-    progressBar: PropTypes.object.isRequired,
-    radioBtn: PropTypes.object.isRequired
+    progressBar: PropTypes.string.isRequired,
+    radioBtn: PropTypes.string.isRequired
   }).isRequired,
   isChecked: PropTypes.bool,
   text: PropTypes.string.isRequired,
