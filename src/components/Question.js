@@ -5,15 +5,24 @@ import {
   Card,
   Button,
   Grid,
-  LinearProgress
+  List,
+  LinearProgress,
+  withStyles
 } from "material-ui"
+import { ListItem, ListItemIcon, ListItemText } from "material-ui/List"
 import { CardContent, CardActions, CardHeader } from "material-ui/Card"
+import { RadioButtonChecked, RadioButtonUnchecked } from "@material-ui/icons"
 
-const style = {
-  height: 10
-}
+const styles = theme => ({
+  progressBar: {
+    height: 10
+  },
+  radioBtn: {
+    color: theme.palette.secondary.light
+  }
+})
 
-const Question = () => (
+const Question = ({ classes }) => (
   <Grid item xs={12} sm={6} lg={4} xl={3}>
     <Card>
       <CardHeader
@@ -25,10 +34,36 @@ const Question = () => (
         <Typography gutterBottom variant="headline" component="h2">
           Would You Rather
         </Typography>
-        <Typography>Do something</Typography>
-        <LinearProgress style={style} variant="determinate" value={10} />
-        <Typography style={{ marginTop: 20 }}>Do something</Typography>
-        <LinearProgress style={style} variant="determinate" value={90} />
+        <div>
+          <List dense>
+            <ListItem>
+              <ListItemIcon>
+                <RadioButtonChecked className={classes.radioBtn} />
+              </ListItemIcon>
+              <ListItemText>
+                Become a superhero
+                <LinearProgress
+                  className={classes.progressBar}
+                  variant="determinate"
+                  value={70}
+                />
+              </ListItemText>
+            </ListItem>
+            <ListItem>
+              <ListItemIcon>
+                <RadioButtonUnchecked className={classes.radioBtn} />
+              </ListItemIcon>
+              <ListItemText>
+                Become a supervillain
+                <LinearProgress
+                  className={classes.progressBar}
+                  variant="determinate"
+                  value={30}
+                />
+              </ListItemText>
+            </ListItem>
+          </List>
+        </div>
       </CardContent>
       <CardActions>
         <Button size="small" color="secondary">
@@ -39,4 +74,4 @@ const Question = () => (
   </Grid>
 )
 
-export default Question
+export default withStyles(styles)(Question)

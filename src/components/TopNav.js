@@ -1,7 +1,13 @@
 import React from "react"
-import { AppBar, Toolbar, IconButton, Typography, Button } from "material-ui"
+import {
+  AppBar,
+  Toolbar,
+  IconButton,
+  Typography,
+  Button,
+  Avatar
+} from "material-ui"
 import MenuIcon from "@material-ui/icons/Menu"
-import { AccountCircle } from "@material-ui/icons"
 
 const styles = {
   iconButton: {
@@ -10,6 +16,9 @@ const styles = {
   },
   flex: {
     flex: 1
+  },
+  profilePic: {
+    marginRight: 5
   }
 }
 
@@ -28,7 +37,9 @@ const TopNav = ({ toggleDrawer }) => (
         Would You Rather
       </Typography>
       <Button color="inherit">
-        <AccountCircle />
+        <Avatar aria-label="Recipe" style={styles.profilePic}>
+          R
+        </Avatar>
         Logout
       </Button>
     </Toolbar>
