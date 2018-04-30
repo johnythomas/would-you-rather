@@ -1,4 +1,5 @@
 import React from "react"
+import { Link } from "react-router-dom"
 import { Button } from "material-ui"
 import AddIcon from "@material-ui/icons/Add"
 
@@ -9,7 +10,13 @@ const style = {
 }
 
 const AddPollButton = () => (
-  <Button variant="fab" color="secondary" style={style}>
+  <Button
+    variant="fab"
+    color="secondary"
+    style={style}
+    component={Link}
+    to="/add"
+  >
     <AddIcon />
   </Button>
 )

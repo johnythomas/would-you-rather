@@ -1,10 +1,17 @@
 import React from "react"
 import PropTypes from "prop-types"
-import { Drawer, Divider, List } from "material-ui"
+import { Link } from "react-router-dom"
+import { Drawer, Divider, List, withStyles } from "material-ui"
 import { ListItem, ListItemIcon, ListItemText } from "material-ui/List"
 import { Add, TrendingUp, Home } from "@material-ui/icons"
 
-const LeftDrawer = ({ isOpen, toggleDrawer }) => (
+const styles = {
+  navLink: {
+    textDecoration: "none"
+  }
+}
+
+const LeftDrawer = ({ classes, isOpen, toggleDrawer }) => (
   <Drawer anchor="left" open={isOpen} onClose={toggleDrawer(false)}>
     <div
       tabIndex={0}
@@ -14,26 +21,32 @@ const LeftDrawer = ({ isOpen, toggleDrawer }) => (
     >
       <div className="drawer-list-item">
         <List>
-          <ListItem button>
-            <ListItemIcon>
-              <Home />
-            </ListItemIcon>
-            <ListItemText primary="Home" />
-          </ListItem>
+          <Link to={"/"} className={classes.navLink}>
+            <ListItem button>
+              <ListItemIcon>
+                <Home />
+              </ListItemIcon>
+              <ListItemText primary="Home" />
+            </ListItem>
+          </Link>
           <Divider />
-          <ListItem button>
-            <ListItemIcon>
-              <TrendingUp />
-            </ListItemIcon>
-            <ListItemText primary="Leaderboard" />
-          </ListItem>
+          <Link to={"/leaderboard"} className={classes.navLink}>
+            <ListItem button>
+              <ListItemIcon>
+                <TrendingUp />
+              </ListItemIcon>
+              <ListItemText primary="Leaderboard" />
+            </ListItem>
+          </Link>
           <Divider />
-          <ListItem button>
-            <ListItemIcon>
-              <Add />
-            </ListItemIcon>
-            <ListItemText primary="Create Poll" />
-          </ListItem>
+          <Link to={"/add"} className={classes.navLink}>
+            <ListItem button>
+              <ListItemIcon>
+                <Add />
+              </ListItemIcon>
+              <ListItemText primary="Create Poll" />
+            </ListItem>
+          </Link>
           <Divider />
         </List>
       </div>
@@ -42,8 +55,11 @@ const LeftDrawer = ({ isOpen, toggleDrawer }) => (
 )
 
 LeftDrawer.propTypes = {
+  classes: PropTypes.shape({
+    navLink: PropTypes.string.isRequired
+  }).isRequired,
   isOpen: PropTypes.bool.isRequired,
   toggleDrawer: PropTypes.func.isRequired
 }
 
-export default LeftDrawer
+export default withStyles(styles)(LeftDrawer)

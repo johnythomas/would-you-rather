@@ -1,4 +1,5 @@
 import React from "react"
+import { Link } from "react-router-dom"
 import {
   Avatar,
   Typography,
@@ -36,7 +37,7 @@ const Question = () => (
         </div>
       </CardContent>
       <CardActions>
-        <Button size="small" color="primary">
+        <Button size="small" color="primary" component={Link} to="/question">
           Answer
         </Button>
         <IconButton aria-label="Delete" style={{ marginLeft: "auto" }}>
