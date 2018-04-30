@@ -1,14 +1,14 @@
 import React, { Component, Fragment } from "react"
 import { BrowserRouter as Router, Route } from "react-router-dom"
-import Questions from "./components/Questions"
-import LeftDrawer from "./components/LeftDrawer"
-import TopNav from "./components/TopNav"
-import AddPollButton from "./components/AddPollButton"
-import TopTab from "./components/TopTab"
-import Login from "./components/Login"
-import AddPoll from "./components/AddPoll"
-import Leaderboard from "./components/Leaderboard"
-import AnswerPoll from "./components/AnswerPoll"
+import Questions from "./Questions"
+import LeftDrawer from "./LeftDrawer"
+import TopNav from "./TopNav"
+import AddPollButton from "./AddPollButton"
+import TopTab from "./TopTab"
+import Login from "./Login"
+import AddPoll from "./AddPoll"
+import Leaderboard from "./Leaderboard"
+import AnswerPoll from "./AnswerPoll"
 
 class App extends Component {
   state = {
