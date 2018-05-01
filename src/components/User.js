@@ -18,22 +18,16 @@ const styles = theme => ({
   }
 })
 
-const User = ({ classes, selectedUser, user, handleToggle }) => (
+const User = ({ classes, isSelected, user }) => (
   <ListItem
-    onClick={handleToggle(user.id)}
     dense
     button
-    className={
-      user.id === selectedUser ? classes.notSelected : classes.selected
-    }
+    className={isSelected ? classes.notSelected : classes.selected}
   >
     <Avatar className={classes.bigAvatar} src={user.avatarURL} />
     <Typography variant="title">{user.name}</Typography>
     <ListItemSecondaryAction>
-      <Checkbox
-        onChange={handleToggle(user.id)}
-        checked={selectedUser === user.id}
-      />
+      <Checkbox checked={isSelected} />
     </ListItemSecondaryAction>
   </ListItem>
 )
@@ -44,17 +38,12 @@ User.propTypes = {
     notSelected: PropTypes.string.isRequired,
     selected: PropTypes.string.isRequired
   }).isRequired,
-  selectedUser: PropTypes.string,
+  isSelected: PropTypes.bool.isRequired,
   user: PropTypes.shape({
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     avatarURL: PropTypes.string.isRequired
-  }).isRequired,
-  handleToggle: PropTypes.func.isRequired
-}
-
-User.defaultProps = {
-  selectedUser: null
+  }).isRequired
 }
 
 const mapStateToProps = ({ users }, { id }) => ({

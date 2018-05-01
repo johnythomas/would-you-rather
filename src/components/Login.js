@@ -1,5 +1,6 @@
 import React, { Fragment } from "react"
 import PropTypes from "prop-types"
+import { withRouter } from "react-router-dom"
 import { connect } from "react-redux"
 import {
   Typography,
@@ -12,6 +13,8 @@ import {
 } from "material-ui"
 import { CardActions } from "material-ui/Card"
 import User from "./User"
+import { setAuthedUser } from "../actions/authedUser"
+import { fetchQuestions } from "../actions/questions"
 
 const styles = {
   userList: {
@@ -32,10 +35,16 @@ class Login extends React.Component {
     selectedUser: null
   }
 
-  handleToggle = value => () => {
+  handleToggle = value => {
     this.setState({
       selectedUser: value
     })
+  }
+
+  handleLoginClick = () => {
+    this.props.login(this.state.selectedUser)
+    this.props.getPolls()
+    this.props.history.push("/")
   }
 
   render() {
@@ -53,14 +62,19 @@ class Login extends React.Component {
               <List className={classes.userList}>
                 {userIds &&
                   userIds.map(id => (
-                    <Fragment key={id}>
+                    <div
+                      role="button"
+                      tabIndex="0"
+                      onClick={() => this.handleToggle(id)}
+                      onKeyPress={() => this.handleToggle(id)}
+                      key={id}
+                    >
                       <User
                         id={id}
-                        handleToggle={this.handleToggle}
-                        selectedUser={this.state.selectedUser}
+                        isSelected={this.state.selectedUser === id}
                       />
                       <Divider />
-                    </Fragment>
+                    </div>
                   ))}
               </List>
               <CardActions className={classes.loginCardAction}>
@@ -69,6 +83,7 @@ class Login extends React.Component {
                   color="primary"
                   style={{ marginLeft: "auto" }}
                   disabled={!this.state.selectedUser}
+                  onClick={this.handleLoginClick}
                 >
                   Login
                 </Button>
@@ -87,11 +102,21 @@ Login.propTypes = {
     loginCardAction: PropTypes.string.isRequired,
     loginHeading: PropTypes.string.isRequired
   }).isRequired,
-  userIds: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired
+  userIds: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+  login: PropTypes.func.isRequired,
+  getPolls: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired
+  }).isRequired
 }
 
 const mapStateToProps = ({ users }) => ({
   userIds: Object.keys(users)
 })
 
-export default connect(mapStateToProps)(withStyles(styles)(Login))
+export default withRouter(
+  connect(mapStateToProps, {
+    login: setAuthedUser,
+    getPolls: fetchQuestions
+  })(withStyles(styles)(Login))
+)
