@@ -1,5 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
+import { connect } from "react-redux"
 import { Grid, withStyles } from "material-ui"
 import Question from "./Question"
 
@@ -9,17 +10,10 @@ const styles = {
   }
 }
 
-const Questions = ({ classes }) => (
+const Questions = ({ classes, questionIds }) => (
   <div className={classes.spacing}>
     <Grid container spacing={16}>
-      <Question />
-      <Question />
-      <Question />
-      <Question />
-      <Question />
-      <Question />
-      <Question />
-      <Question />
+      {questionIds.map(id => <Question key={id} id={id} />)}
     </Grid>
   </div>
 )
@@ -27,7 +21,12 @@ const Questions = ({ classes }) => (
 Questions.propTypes = {
   classes: PropTypes.shape({
     spacing: PropTypes.string.isRequired
-  }).isRequired
+  }).isRequired,
+  questionIds: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired
 }
 
-export default withStyles(styles)(Questions)
+const mapStateToProps = ({ questions }) => ({
+  questionIds: Object.keys(questions)
+})
+
+export default connect(mapStateToProps)(withStyles(styles)(Questions))
