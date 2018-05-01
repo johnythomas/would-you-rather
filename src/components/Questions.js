@@ -3,6 +3,7 @@ import PropTypes from "prop-types"
 import { connect } from "react-redux"
 import { Grid, withStyles } from "material-ui"
 import Question from "./Question"
+import { ANSWERED } from "../actions/questionVisibilityFilter"
 
 const styles = {
   spacing: {
@@ -25,8 +26,27 @@ Questions.propTypes = {
   questionIds: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired
 }
 
-const mapStateToProps = ({ questions }) => ({
-  questionIds: Object.keys(questions)
-})
+const mapStateToProps = ({
+  questions,
+  authedUser,
+  questionVisibilityFilter
+}) => {
+  if (questionVisibilityFilter === ANSWERED) {
+    return {
+      questionIds: Object.keys(questions).filter(
+        qid =>
+          questions[qid].optionOne.votes.includes(authedUser) ||
+          questions[qid].optionTwo.votes.includes(authedUser)
+      )
+    }
+  }
+  return {
+    questionIds: Object.keys(questions).filter(
+      qid =>
+        !questions[qid].optionOne.votes.includes(authedUser) &&
+        !questions[qid].optionTwo.votes.includes(authedUser)
+    )
+  }
+}
 
 export default connect(mapStateToProps)(withStyles(styles)(Questions))

@@ -39,7 +39,8 @@ class TopTab extends Component {
 }
 
 TopTab.propTypes = {
-  questionVisibilityFilter: PropTypes.string.isRequired
+  questionVisibilityFilter: PropTypes.string.isRequired,
+  changeQuestionVisibilityFilter: PropTypes.func.isRequired
 }
 
 const mapStateToProps = ({ questionVisibilityFilter }) => ({
