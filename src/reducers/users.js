@@ -1,5 +1,5 @@
 import { USERS_FETCHED } from "../actions/users"
-import { SAVE_QUESTION_ANSWER } from "../actions/questions"
+import { SAVE_QUESTION_ANSWER, ADD_QUESTION } from "../actions/questions"
 
 const users = (state = {}, action) => {
   switch (action.type) {
@@ -19,6 +19,16 @@ const users = (state = {}, action) => {
             ...user.answers,
             [qid]: answer
           }
+        }
+      }
+    }
+    case ADD_QUESTION: {
+      const author = state[action.question.author]
+      return {
+        ...state,
+        [author.id]: {
+          ...author,
+          questions: author.questions.concat([action.question.id])
         }
       }
     }
