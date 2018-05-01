@@ -1,5 +1,7 @@
 import React, { Component, Fragment } from "react"
 import { BrowserRouter as Router, Route } from "react-router-dom"
+import { connect } from "react-redux"
+import PropTypes from "prop-types"
 import Questions from "./Questions"
 import LeftDrawer from "./LeftDrawer"
 import TopNav from "./TopNav"
@@ -9,10 +11,15 @@ import Login from "./Login"
 import AddPoll from "./AddPoll"
 import Leaderboard from "./Leaderboard"
 import AnswerPoll from "./AnswerPoll"
+import { fetchUsers } from "../actions/users"
 
 class App extends Component {
   state = {
     isOpen: false
+  }
+
+  componentDidMount() {
+    this.props.getAllUsers()
   }
 
   toggleDrawer = open => () => {
@@ -52,4 +59,8 @@ class App extends Component {
   }
 }
 
-export default App
+App.propTypes = {
+  getAllUsers: PropTypes.func.isRequired
+}
+
+export default connect(null, { getAllUsers: fetchUsers })(App)

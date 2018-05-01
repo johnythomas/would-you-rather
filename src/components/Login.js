@@ -7,31 +7,13 @@ import {
   Grid,
   Button,
   Divider,
-  Checkbox,
-  Avatar,
+  List,
   withStyles
 } from "material-ui"
-import List, {
-  ListItem,
-  ListItemSecondaryAction,
-  ListItemText
-} from "material-ui/List"
 import { CardActions } from "material-ui/Card"
-import { deepOrange } from "material-ui/colors"
-import { fetchUsers } from "../actions/users"
+import User from "./User"
 
-const styles = theme => ({
-  orangeAvatar: {
-    margin: 10,
-    color: "#fff",
-    backgroundColor: deepOrange[500]
-  },
-  notSelected: {
-    backgroundColor: theme.palette.text.disabled
-  },
-  selected: {
-    backgroundColor: "transparent"
-  },
+const styles = {
   userList: {
     maxHeight: 500,
     overflowY: "auto"
@@ -43,25 +25,21 @@ const styles = theme => ({
     marginTop: 10,
     marginBottom: 10
   }
-})
+}
 
 class Login extends React.Component {
   state = {
-    checked: null
-  }
-
-  componentDidMount() {
-    this.props.getUsers()
+    selectedUser: null
   }
 
   handleToggle = value => () => {
     this.setState({
-      checked: value
+      selectedUser: value
     })
   }
 
   render() {
-    const { classes } = this.props
+    const { classes, userIds } = this.props
     return (
       <Fragment>
         <Grid container style={{ marginTop: 40 }}>
@@ -73,37 +51,24 @@ class Login extends React.Component {
               </Typography>
               <Divider />
               <List className={classes.userList}>
-                {[1, 2, 3, 4].map(value => (
-                  <Fragment key={value}>
-                    <ListItem
-                      onClick={this.handleToggle(value)}
-                      dense
-                      button
-                      className={
-                        value === this.state.checked
-                          ? classes.notSelected
-                          : classes.selected
-                      }
-                    >
-                      <Avatar className={classes.orangeAvatar}>RS</Avatar>
-                      <ListItemText primary={`User ${value}`} />
-                      <ListItemSecondaryAction>
-                        <Checkbox
-                          onChange={this.handleToggle(value)}
-                          checked={this.state.checked === value}
-                        />
-                      </ListItemSecondaryAction>
-                    </ListItem>
-                    <Divider />
-                  </Fragment>
-                ))}
+                {userIds &&
+                  userIds.map(id => (
+                    <Fragment key={id}>
+                      <User
+                        id={id}
+                        handleToggle={this.handleToggle}
+                        selectedUser={this.state.selectedUser}
+                      />
+                      <Divider />
+                    </Fragment>
+                  ))}
               </List>
               <CardActions className={classes.loginCardAction}>
                 <Button
                   variant="raised"
                   color="primary"
                   style={{ marginLeft: "auto" }}
-                  disabled={!this.state.checked}
+                  disabled={!this.state.selectedUser}
                 >
                   Login
                 </Button>
@@ -118,16 +83,15 @@ class Login extends React.Component {
 
 Login.propTypes = {
   classes: PropTypes.shape({
-    orangeAvatar: PropTypes.string.isRequired,
-    notSelected: PropTypes.string.isRequired,
-    selected: PropTypes.string.isRequired,
     userList: PropTypes.string.isRequired,
     loginCardAction: PropTypes.string.isRequired,
     loginHeading: PropTypes.string.isRequired
   }).isRequired,
-  getUsers: PropTypes.func.isRequired
+  userIds: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired
 }
 
-export default connect(null, { getUsers: fetchUsers })(
-  withStyles(styles)(Login)
-)
+const mapStateToProps = ({ users }) => ({
+  userIds: Object.keys(users)
+})
+
+export default connect(mapStateToProps)(withStyles(styles)(Login))
