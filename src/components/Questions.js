@@ -3,9 +3,9 @@ import PropTypes from "prop-types"
 import { connect } from "react-redux"
 import { Grid, withStyles } from "material-ui"
 import Question from "./Question"
-import { ANSWERED } from "../actions/questionVisibilityFilter"
 import AddPollButton from "./AddPollButton"
 import TopTab from "./TopTab"
+import { getFilterdQuestions } from "../util/helpers"
 
 const styles = {
   spacing: {
@@ -36,23 +36,12 @@ const mapStateToProps = ({
   questions,
   authedUser,
   questionVisibilityFilter
-}) => {
-  if (questionVisibilityFilter === ANSWERED) {
-    return {
-      questionIds: Object.keys(questions).filter(
-        qid =>
-          questions[qid].optionOne.votes.includes(authedUser) ||
-          questions[qid].optionTwo.votes.includes(authedUser)
-      )
-    }
-  }
-  return {
-    questionIds: Object.keys(questions).filter(
-      qid =>
-        !questions[qid].optionOne.votes.includes(authedUser) &&
-        !questions[qid].optionTwo.votes.includes(authedUser)
-    )
-  }
-}
+}) => ({
+  questionIds: getFilterdQuestions(
+    questions,
+    authedUser,
+    questionVisibilityFilter
+  ).sort((a, b) => questions[b].timestamp - questions[a].timestamp)
+})
 
 export default connect(mapStateToProps)(withStyles(styles)(Questions))

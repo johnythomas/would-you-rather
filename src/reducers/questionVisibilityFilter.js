@@ -1,9 +1,12 @@
 import {
   TOGGLE_ANSWER_VISIBILITY_FILTER,
-  UNANSWERED
+  QuestionFilters
 } from "../actions/questionVisibilityFilter"
 
-const questionVisibilityFilter = (state = UNANSWERED, action) => {
+const questionVisibilityFilter = (
+  state = QuestionFilters.UNANSWERED,
+  action
+) => {
   switch (action.type) {
     case TOGGLE_ANSWER_VISIBILITY_FILTER:
       return action.visibilityFilter

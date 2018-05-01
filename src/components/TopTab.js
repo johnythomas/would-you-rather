@@ -5,8 +5,7 @@ import { Paper } from "material-ui"
 import Tabs, { Tab } from "material-ui/Tabs"
 import {
   toggleQuestionVisibilityFilter,
-  UNANSWERED,
-  ANSWERED
+  QuestionFilters
 } from "../actions/questionVisibilityFilter"
 
 const TopTab = ({
@@ -15,9 +14,11 @@ const TopTab = ({
 }) => (
   <Paper>
     <Tabs
-      value={questionVisibilityFilter === UNANSWERED ? 0 : 1}
+      value={questionVisibilityFilter === QuestionFilters.UNANSWERED ? 0 : 1}
       onChange={(e, value) =>
-        changeQuestionVisibilityFilter(value === 0 ? UNANSWERED : ANSWERED)
+        changeQuestionVisibilityFilter(
+          value === 0 ? QuestionFilters.UNANSWERED : QuestionFilters.ANSWERED
+        )
       }
       indicatorColor="primary"
       textColor="primary"
