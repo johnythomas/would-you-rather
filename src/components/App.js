@@ -52,7 +52,7 @@ class App extends Component {
           <PrivateRoute path="/leaderboard" component={Leaderboard} />
           <Route path="/login" component={Login} />
           <PrivateRoute path="/add" component={AddPoll} />
-          <PrivateRoute path="/question" component={AnswerPoll} />
+          <PrivateRoute path="/questions/:id" component={AnswerPoll} />
           <AddPollButton />
         </Fragment>
       </Router>

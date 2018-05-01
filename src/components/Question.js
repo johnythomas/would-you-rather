@@ -56,7 +56,12 @@ const Question = ({ author, question }) => {
           </div>
         </CardContent>
         <CardActions>
-          <Button size="small" color="primary" component={Link} to="/question">
+          <Button
+            size="small"
+            color="primary"
+            component={Link}
+            to={`/questions/${question.id}`}
+          >
             Answer
           </Button>
           <IconButton aria-label="Delete" style={{ marginLeft: "auto" }}>

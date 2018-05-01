@@ -1,5 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
+import { connect } from "react-redux"
 import {
   Avatar,
   Typography,
@@ -13,6 +14,7 @@ import { CardContent, CardActions, CardHeader } from "material-ui/Card"
 import DeleteIcon from "@material-ui/icons/Delete"
 import Radio, { RadioGroup } from "material-ui/Radio"
 import { FormControl, FormControlLabel } from "material-ui/Form"
+import { calculateVotePercent, formatDate } from "../util/helpers"
 
 const styles = {
   margin: {
@@ -30,16 +32,22 @@ class AnswerPoll extends React.Component {
   }
 
   render() {
-    const { classes } = this.props
+    const { classes, question, author } = this.props
+    if (!question) {
+      return <div>question not present</div>
+    }
+
+    const { optionOne, optionTwo } = question
+
     return (
       <Grid container className={classes.margin}>
         <Grid item xs={1} sm={3} lg={4} xl={5} />
         <Grid item xs={10} sm={6} lg={4} xl={2}>
           <Card>
             <CardHeader
-              avatar={<Avatar aria-label="Recipe">R</Avatar>}
-              title="Shrimp and Chorizo Paella"
-              subheader="September 14, 2016"
+              avatar={<Avatar aria-label="Recipe" src={author.avatarURL} />}
+              title={author.name}
+              subheader={formatDate(question.timestamp)}
             />
             <CardContent>
               <Typography gutterBottom variant="headline" component="h2">
@@ -54,14 +62,14 @@ class AnswerPoll extends React.Component {
                   onChange={this.handleChange}
                 >
                   <FormControlLabel
-                    value="Be a superhero"
+                    value="optionOne"
                     control={<Radio />}
-                    label="Be a superhero"
+                    label={optionOne.text}
                   />
                   <FormControlLabel
-                    value="Be a supervillain"
+                    value="optionTwo"
                     control={<Radio />}
-                    label="Be a supervillain"
+                    label={optionTwo.text}
                   />
                 </RadioGroup>
               </FormControl>
@@ -87,4 +95,14 @@ AnswerPoll.propTypes = {
   }).isRequired
 }
 
-export default withStyles(styles)(AnswerPoll)
+const mapStateToProps = ({ questions, users, authedUser }, props) => {
+  const { id } = props.match.params
+  const question = questions[id]
+  return {
+    question,
+    author: question ? users[question.author] : null,
+    authedUser: users[authedUser]
+  }
+}
+
+export default connect(mapStateToProps)(withStyles(styles)(AnswerPoll))
