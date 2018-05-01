@@ -28,6 +28,7 @@
     "jest/valid-expect": "error",
     "semi": [2, "never"],
     "no-alert": 0,
-    "no-console": 0
+    "no-console": 0,
+    "import/prefer-default-export": false
   }
 }
