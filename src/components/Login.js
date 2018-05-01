@@ -1,5 +1,6 @@
 import React, { Fragment } from "react"
 import PropTypes from "prop-types"
+import { connect } from "react-redux"
 import {
   Typography,
   Card,
@@ -17,6 +18,7 @@ import List, {
 } from "material-ui/List"
 import { CardActions } from "material-ui/Card"
 import { deepOrange } from "material-ui/colors"
+import { fetchUsers } from "../actions/users"
 
 const styles = theme => ({
   orangeAvatar: {
@@ -46,6 +48,10 @@ const styles = theme => ({
 class Login extends React.Component {
   state = {
     checked: null
+  }
+
+  componentDidMount() {
+    this.props.getUsers()
   }
 
   handleToggle = value => () => {
@@ -118,7 +124,10 @@ Login.propTypes = {
     userList: PropTypes.string.isRequired,
     loginCardAction: PropTypes.string.isRequired,
     loginHeading: PropTypes.string.isRequired
-  }).isRequired
+  }).isRequired,
+  getUsers: PropTypes.func.isRequired
 }
 
-export default withStyles(styles)(Login)
+export default connect(null, { getUsers: fetchUsers })(
+  withStyles(styles)(Login)
+)
