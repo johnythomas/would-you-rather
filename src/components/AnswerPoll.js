@@ -14,7 +14,8 @@ import { CardContent, CardActions, CardHeader } from "material-ui/Card"
 import DeleteIcon from "@material-ui/icons/Delete"
 import Radio, { RadioGroup } from "material-ui/Radio"
 import { FormControl, FormControlLabel } from "material-ui/Form"
-import { calculateVotePercent, formatDate } from "../util/helpers"
+import { formatDate } from "../util/helpers"
+import { handleAnserQuestion } from "../actions/questions"
 
 const styles = {
   margin: {
@@ -29,6 +30,16 @@ class AnswerPoll extends React.Component {
 
   handleChange = event => {
     this.setState({ value: event.target.value })
+  }
+
+  handleSubmit = () => {
+    const { question, authedUser } = this.props
+    this.props.saveAnswer({
+      qid: question.id,
+      authedUser,
+      answer: this.state.value
+    })
+    this.props.history.push("/")
   }
 
   render() {
@@ -56,8 +67,6 @@ class AnswerPoll extends React.Component {
 
               <FormControl component="fieldset" required>
                 <RadioGroup
-                  aria-label="gender"
-                  name="gender1"
                   value={this.state.value}
                   onChange={this.handleChange}
                 >
@@ -75,7 +84,11 @@ class AnswerPoll extends React.Component {
               </FormControl>
             </CardContent>
             <CardActions>
-              <Button color="primary" variant="raised">
+              <Button
+                color="primary"
+                variant="raised"
+                onClick={this.handleSubmit}
+              >
                 Answer
               </Button>
               <IconButton aria-label="Delete" style={{ marginLeft: "auto" }}>
@@ -92,7 +105,31 @@ class AnswerPoll extends React.Component {
 AnswerPoll.propTypes = {
   classes: PropTypes.shape({
     margin: PropTypes.string.isRequired
+  }).isRequired,
+  question: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    optionOne: PropTypes.shape({
+      text: PropTypes.string.isRequired
+    }),
+    optionTwo: PropTypes.shape({
+      text: PropTypes.string.isRequired
+    })
+  }),
+  author: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    avatarURL: PropTypes.string.isRequired
+  }).isRequired,
+  authedUser: PropTypes.string.isRequired,
+  saveAnswer: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired
   }).isRequired
+}
+
+AnswerPoll.defaultProps = {
+  question: null,
+  author: null
 }
 
 const mapStateToProps = ({ questions, users, authedUser }, props) => {
@@ -101,8 +138,10 @@ const mapStateToProps = ({ questions, users, authedUser }, props) => {
   return {
     question,
     author: question ? users[question.author] : null,
-    authedUser: users[authedUser]
+    authedUser
   }
 }
 
-export default connect(mapStateToProps)(withStyles(styles)(AnswerPoll))
+export default connect(mapStateToProps, { saveAnswer: handleAnserQuestion })(
+  withStyles(styles)(AnswerPoll)
+)
