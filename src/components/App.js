@@ -12,6 +12,7 @@ import AddPoll from "./AddPoll"
 import Leaderboard from "./Leaderboard"
 import AnswerPoll from "./AnswerPoll"
 import { fetchUsers } from "../actions/users"
+import PrivateRoute from "./PrivateRoute"
 
 class App extends Component {
   state = {
@@ -38,20 +39,20 @@ class App extends Component {
             toggleDrawer={this.toggleDrawer}
             isOpen={this.state.isOpen}
           />
-          <Route
+          <PrivateRoute
             path="/"
             exact
-            render={() => (
+            component={() => (
               <Fragment>
                 <TopTab />
                 <Questions toggleDrawer={this.toggleDrawer} />
               </Fragment>
             )}
           />
-          <Route path="/leaderboard" component={Leaderboard} />
+          <PrivateRoute path="/leaderboard" component={Leaderboard} />
           <Route path="/login" component={Login} />
-          <Route path="/add" component={AddPoll} />
-          <Route path="/question" component={AnswerPoll} />
+          <PrivateRoute path="/add" component={AddPoll} />
+          <PrivateRoute path="/question" component={AnswerPoll} />
           <AddPollButton />
         </Fragment>
       </Router>

@@ -1,6 +1,6 @@
 import React, { Fragment } from "react"
 import PropTypes from "prop-types"
-import { withRouter } from "react-router-dom"
+import { Redirect } from "react-router-dom"
 import { connect } from "react-redux"
 import {
   Typography,
@@ -32,6 +32,7 @@ const styles = {
 
 class Login extends React.Component {
   state = {
+    redirectToReferrer: false,
     selectedUser: null
   }
 
@@ -44,11 +45,20 @@ class Login extends React.Component {
   handleLoginClick = () => {
     this.props.login(this.state.selectedUser)
     this.props.getPolls()
-    this.props.history.push("/")
+    this.setState({
+      redirectToReferrer: true
+    })
   }
 
   render() {
     const { classes, userIds } = this.props
+    const { from } = this.props.location.state || { from: { pathname: "/" } }
+    const { redirectToReferrer } = this.state
+
+    if (redirectToReferrer) {
+      return <Redirect to={from} />
+    }
+
     return (
       <Fragment>
         <Grid container style={{ marginTop: 40 }}>
@@ -105,8 +115,12 @@ Login.propTypes = {
   userIds: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
   login: PropTypes.func.isRequired,
   getPolls: PropTypes.func.isRequired,
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired
+  location: PropTypes.shape({
+    state: PropTypes.shape({
+      from: PropTypes.shape({
+        pathname: PropTypes.string.isRequired
+      })
+    })
   }).isRequired
 }
 
@@ -114,9 +128,7 @@ const mapStateToProps = ({ users }) => ({
   userIds: Object.keys(users)
 })
 
-export default withRouter(
-  connect(mapStateToProps, {
-    login: setAuthedUser,
-    getPolls: fetchQuestions
-  })(withStyles(styles)(Login))
-)
+export default connect(mapStateToProps, {
+  login: setAuthedUser,
+  getPolls: fetchQuestions
+})(withStyles(styles)(Login))
