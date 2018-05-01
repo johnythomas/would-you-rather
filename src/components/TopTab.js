@@ -1,4 +1,4 @@
-import React, { Component } from "react"
+import React from "react"
 import { connect } from "react-redux"
 import PropTypes from "prop-types"
 import { Paper } from "material-ui"
@@ -9,34 +9,25 @@ import {
   ANSWERED
 } from "../actions/questionVisibilityFilter"
 
-class TopTab extends Component {
-  handleChange = (event, value) => {
-    this.setState({ value })
-  }
-
-  render() {
-    const {
-      questionVisibilityFilter,
-      changeQuestionVisibilityFilter
-    } = this.props
-    return (
-      <Paper>
-        <Tabs
-          value={questionVisibilityFilter === UNANSWERED ? 0 : 1}
-          onChange={(e, value) =>
-            changeQuestionVisibilityFilter(value === 0 ? UNANSWERED : ANSWERED)
-          }
-          indicatorColor="primary"
-          textColor="primary"
-          centered
-        >
-          <Tab label="Unanswered" />
-          <Tab label="Answered" />
-        </Tabs>
-      </Paper>
-    )
-  }
-}
+const TopTab = ({
+  questionVisibilityFilter,
+  changeQuestionVisibilityFilter
+}) => (
+  <Paper>
+    <Tabs
+      value={questionVisibilityFilter === UNANSWERED ? 0 : 1}
+      onChange={(e, value) =>
+        changeQuestionVisibilityFilter(value === 0 ? UNANSWERED : ANSWERED)
+      }
+      indicatorColor="primary"
+      textColor="primary"
+      centered
+    >
+      <Tab label="Unanswered" />
+      <Tab label="Answered" />
+    </Tabs>
+  </Paper>
+)
 
 TopTab.propTypes = {
   questionVisibilityFilter: PropTypes.string.isRequired,

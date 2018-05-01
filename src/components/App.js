@@ -5,8 +5,6 @@ import PropTypes from "prop-types"
 import Questions from "./Questions"
 import LeftDrawer from "./LeftDrawer"
 import TopNav from "./TopNav"
-import AddPollButton from "./AddPollButton"
-import TopTab from "./TopTab"
 import Login from "./Login"
 import AddPoll from "./AddPoll"
 import Leaderboard from "./Leaderboard"
@@ -15,18 +13,8 @@ import { fetchUsers } from "../actions/users"
 import PrivateRoute from "./PrivateRoute"
 
 class App extends Component {
-  state = {
-    isOpen: false
-  }
-
   componentDidMount() {
     this.props.getAllUsers()
-  }
-
-  toggleDrawer = open => () => {
-    this.setState({
-      isOpen: open
-    })
   }
 
   render() {
@@ -34,26 +22,13 @@ class App extends Component {
       <Router>
         <Fragment>
           {/* Add the loading bar here */}
-          <TopNav toggleDrawer={this.toggleDrawer} />
-          <LeftDrawer
-            toggleDrawer={this.toggleDrawer}
-            isOpen={this.state.isOpen}
-          />
-          <PrivateRoute
-            path="/"
-            exact
-            component={() => (
-              <Fragment>
-                <TopTab />
-                <Questions toggleDrawer={this.toggleDrawer} />
-              </Fragment>
-            )}
-          />
+          <TopNav />
+          <LeftDrawer />
+          <PrivateRoute path="/" exact component={Questions} />
           <PrivateRoute path="/leaderboard" component={Leaderboard} />
           <Route path="/login" component={Login} />
           <PrivateRoute path="/add" component={AddPoll} />
           <PrivateRoute path="/questions/:id" component={AnswerPoll} />
-          <AddPollButton />
         </Fragment>
       </Router>
     )

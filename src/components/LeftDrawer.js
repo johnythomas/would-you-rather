@@ -1,9 +1,11 @@
 import React from "react"
 import PropTypes from "prop-types"
+import { connect } from "react-redux"
 import { Link } from "react-router-dom"
 import { Drawer, Divider, List, withStyles } from "material-ui"
 import { ListItem, ListItemIcon, ListItemText } from "material-ui/List"
 import { Add, TrendingUp, Home } from "@material-ui/icons"
+import { DrawerState, toggleDrawer } from "../actions/drawer"
 
 const styles = {
   navLink: {
@@ -11,13 +13,13 @@ const styles = {
   }
 }
 
-const LeftDrawer = ({ classes, isOpen, toggleDrawer }) => (
-  <Drawer anchor="left" open={isOpen} onClose={toggleDrawer(false)}>
+const LeftDrawer = ({ classes, isOpen, toggleDrawerState }) => (
+  <Drawer anchor="left" open={isOpen} onClose={() => toggleDrawerState()}>
     <div
       tabIndex={0}
       role="button"
-      onClick={toggleDrawer(false)}
-      onKeyDown={toggleDrawer(false)}
+      onClick={() => toggleDrawerState()}
+      onKeyDown={() => toggleDrawerState()}
     >
       <div className="drawer-list-item">
         <List>
@@ -59,7 +61,13 @@ LeftDrawer.propTypes = {
     navLink: PropTypes.string.isRequired
   }).isRequired,
   isOpen: PropTypes.bool.isRequired,
-  toggleDrawer: PropTypes.func.isRequired
+  toggleDrawerState: PropTypes.func.isRequired
 }
 
-export default withStyles(styles)(LeftDrawer)
+const mapStateToProps = ({ drawer }) => ({
+  isOpen: drawer === DrawerState.OPEN
+})
+
+export default connect(mapStateToProps, { toggleDrawerState: toggleDrawer })(
+  withStyles(styles)(LeftDrawer)
+)

@@ -1,9 +1,11 @@
-import React from "react"
+import React, { Fragment } from "react"
 import PropTypes from "prop-types"
 import { connect } from "react-redux"
 import { Grid, withStyles } from "material-ui"
 import Question from "./Question"
 import { ANSWERED } from "../actions/questionVisibilityFilter"
+import AddPollButton from "./AddPollButton"
+import TopTab from "./TopTab"
 
 const styles = {
   spacing: {
@@ -12,11 +14,15 @@ const styles = {
 }
 
 const Questions = ({ classes, questionIds }) => (
-  <div className={classes.spacing}>
-    <Grid container spacing={16}>
-      {questionIds.map(id => <Question key={id} id={id} />)}
-    </Grid>
-  </div>
+  <Fragment>
+    <TopTab />
+    <div className={classes.spacing}>
+      <Grid container spacing={16}>
+        {questionIds.map(id => <Question key={id} id={id} />)}
+      </Grid>
+    </div>
+    <AddPollButton />
+  </Fragment>
 )
 
 Questions.propTypes = {

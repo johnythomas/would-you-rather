@@ -1,4 +1,4 @@
-import React from "react"
+import React, { Fragment } from "react"
 import PropTypes from "prop-types"
 import { connect } from "react-redux"
 import {
@@ -16,6 +16,7 @@ import Radio, { RadioGroup } from "material-ui/Radio"
 import { FormControl, FormControlLabel } from "material-ui/Form"
 import { formatDate } from "../util/helpers"
 import { handleAnserQuestion } from "../actions/questions"
+import AddPollButton from "./AddPollButton"
 
 const styles = {
   margin: {
@@ -51,53 +52,56 @@ class AnswerPoll extends React.Component {
     const { optionOne, optionTwo } = question
 
     return (
-      <Grid container className={classes.margin}>
-        <Grid item xs={1} sm={3} lg={4} xl={5} />
-        <Grid item xs={10} sm={6} lg={4} xl={2}>
-          <Card>
-            <CardHeader
-              avatar={<Avatar aria-label="Recipe" src={author.avatarURL} />}
-              title={author.name}
-              subheader={formatDate(question.timestamp)}
-            />
-            <CardContent>
-              <Typography gutterBottom variant="headline" component="h2">
-                Would You Rather
-              </Typography>
+      <Fragment>
+        <Grid container className={classes.margin}>
+          <Grid item xs={1} sm={3} lg={4} xl={5} />
+          <Grid item xs={10} sm={6} lg={4} xl={2}>
+            <Card>
+              <CardHeader
+                avatar={<Avatar aria-label="Recipe" src={author.avatarURL} />}
+                title={author.name}
+                subheader={formatDate(question.timestamp)}
+              />
+              <CardContent>
+                <Typography gutterBottom variant="headline" component="h2">
+                  Would You Rather
+                </Typography>
 
-              <FormControl component="fieldset" required>
-                <RadioGroup
-                  value={this.state.value}
-                  onChange={this.handleChange}
+                <FormControl component="fieldset" required>
+                  <RadioGroup
+                    value={this.state.value}
+                    onChange={this.handleChange}
+                  >
+                    <FormControlLabel
+                      value="optionOne"
+                      control={<Radio />}
+                      label={optionOne.text}
+                    />
+                    <FormControlLabel
+                      value="optionTwo"
+                      control={<Radio />}
+                      label={optionTwo.text}
+                    />
+                  </RadioGroup>
+                </FormControl>
+              </CardContent>
+              <CardActions>
+                <Button
+                  color="primary"
+                  variant="raised"
+                  onClick={this.handleSubmit}
                 >
-                  <FormControlLabel
-                    value="optionOne"
-                    control={<Radio />}
-                    label={optionOne.text}
-                  />
-                  <FormControlLabel
-                    value="optionTwo"
-                    control={<Radio />}
-                    label={optionTwo.text}
-                  />
-                </RadioGroup>
-              </FormControl>
-            </CardContent>
-            <CardActions>
-              <Button
-                color="primary"
-                variant="raised"
-                onClick={this.handleSubmit}
-              >
-                Answer
-              </Button>
-              <IconButton aria-label="Delete" style={{ marginLeft: "auto" }}>
-                <DeleteIcon />
-              </IconButton>
-            </CardActions>
-          </Card>
+                  Answer
+                </Button>
+                <IconButton aria-label="Delete" style={{ marginLeft: "auto" }}>
+                  <DeleteIcon />
+                </IconButton>
+              </CardActions>
+            </Card>
+          </Grid>
         </Grid>
-      </Grid>
+        <AddPollButton />
+      </Fragment>
     )
   }
 }
@@ -119,7 +123,7 @@ AnswerPoll.propTypes = {
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     avatarURL: PropTypes.string.isRequired
-  }).isRequired,
+  }),
   authedUser: PropTypes.string.isRequired,
   saveAnswer: PropTypes.func.isRequired,
   history: PropTypes.shape({
