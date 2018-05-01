@@ -1,5 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
+import { connect } from "react-redux"
 import {
   AppBar,
   Toolbar,
@@ -9,6 +10,7 @@ import {
   Avatar
 } from "material-ui"
 import MenuIcon from "@material-ui/icons/Menu"
+import { logout } from "../actions/authedUser"
 
 const styles = {
   iconButton: {
@@ -23,7 +25,7 @@ const styles = {
   }
 }
 
-const TopNav = ({ toggleDrawer }) => (
+const TopNav = ({ toggleDrawer, user, doLogout }) => (
   <AppBar position="static">
     <Toolbar>
       <IconButton
@@ -37,18 +39,34 @@ const TopNav = ({ toggleDrawer }) => (
       <Typography variant="title" color="inherit" style={styles.flex}>
         Would You Rather
       </Typography>
-      <Button color="inherit">
-        <Avatar aria-label="Recipe" style={styles.profilePic}>
-          R
-        </Avatar>
-        Logout
-      </Button>
+      {user && (
+        <Button color="inherit" onClick={() => doLogout()}>
+          <Avatar
+            aria-label="Recipe"
+            style={styles.profilePic}
+            src={user.avatarURL}
+          />
+          Logout
+        </Button>
+      )}
     </Toolbar>
   </AppBar>
 )
 
 TopNav.propTypes = {
-  toggleDrawer: PropTypes.func.isRequired
+  toggleDrawer: PropTypes.func.isRequired,
+  doLogout: PropTypes.func.isRequired,
+  user: PropTypes.shape({
+    avatarURL: PropTypes.string.isRequired
+  })
 }
 
-export default TopNav
+TopNav.defaultProps = {
+  user: null
+}
+
+const mapStateToProps = ({ authedUser, users }) => ({
+  user: users[authedUser]
+})
+
+export default connect(mapStateToProps, { doLogout: logout })(TopNav)
