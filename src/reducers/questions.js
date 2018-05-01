@@ -1,4 +1,4 @@
-import { QUESTIONS_FETCHED } from "../actions/questions"
+import { QUESTIONS_FETCHED, ADD_QUESTION } from "../actions/questions"
 
 const questions = (state = {}, action) => {
   switch (action.type) {
@@ -6,6 +6,11 @@ const questions = (state = {}, action) => {
       return {
         ...state,
         ...action.questions
+      }
+    case ADD_QUESTION:
+      return {
+        ...state,
+        [action.question.id]: action.question
       }
     default:
       return state

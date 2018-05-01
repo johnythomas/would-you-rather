@@ -1,5 +1,7 @@
 import React, { Fragment, Component } from "react"
 import PropTypes from "prop-types"
+import { connect } from "react-redux"
+import { withRouter } from "react-router-dom"
 import {
   Typography,
   Card,
@@ -12,6 +14,7 @@ import {
 import { CardActions } from "material-ui/Card"
 import { InputLabel } from "material-ui/Input"
 import { FormControl } from "material-ui/Form"
+import { handleAddQuestion } from "../actions/questions"
 
 const styles = theme => ({
   cardAction: {
@@ -28,11 +31,29 @@ const styles = theme => ({
 
 class AddPoll extends Component {
   state = {
-    isFormValid: false
+    optionOne: "",
+    optionTwo: ""
+  }
+
+  handleChange = e => {
+    const { name, value } = e.target
+    this.setState(() => ({
+      [name]: value
+    }))
+  }
+
+  handleSubmit = () => {
+    this.props.addQuestion({
+      author: this.props.authedUser,
+      optionOneText: this.state.optionOne,
+      optionTwoText: this.state.optionTwo
+    })
+    this.props.history.push("/")
   }
 
   render() {
     const { classes } = this.props
+    const isFormValid = !!this.state.optionOne && !!this.state.optionTwo
     return (
       <Fragment>
         <Grid container style={{ marginTop: 40 }}>
@@ -48,12 +69,22 @@ class AddPoll extends Component {
               </Typography>
               <Divider />
               <FormControl fullWidth className={classes.margin}>
-                <InputLabel htmlFor="option1">Option 1</InputLabel>
-                <Input id="option1" value={this.state.amount} />
+                <InputLabel htmlFor="optionOne">Option 1</InputLabel>
+                <Input
+                  id="optionOne"
+                  name="optionOne"
+                  onChange={this.handleChange}
+                  value={this.state.optionOne}
+                />
               </FormControl>
               <FormControl fullWidth className={classes.margin}>
-                <InputLabel htmlFor="option2">Option 2</InputLabel>
-                <Input id="option2" value={this.state.amount} />
+                <InputLabel htmlFor="optionTwo">Option 2</InputLabel>
+                <Input
+                  id="optionTwo"
+                  name="optionTwo"
+                  onChange={this.handleChange}
+                  value={this.state.optionTwo}
+                />
               </FormControl>
               <Divider />
               <CardActions className={classes.cardAction}>
@@ -61,7 +92,8 @@ class AddPoll extends Component {
                   variant="raised"
                   color="primary"
                   style={{ marginLeft: "auto" }}
-                  disabled={!this.state.isFormValid}
+                  disabled={!isFormValid}
+                  onClick={this.handleSubmit}
                 >
                   Save
                 </Button>
@@ -79,7 +111,20 @@ AddPoll.propTypes = {
     cardAction: PropTypes.string.isRequired,
     addPollHeading: PropTypes.string.isRequired,
     margin: PropTypes.string.isRequired
+  }).isRequired,
+  authedUser: PropTypes.string.isRequired,
+  addQuestion: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired
   }).isRequired
 }
 
-export default withStyles(styles)(AddPoll)
+const mapStateToProps = ({ authedUser }) => ({
+  authedUser
+})
+
+export default withRouter(
+  connect(mapStateToProps, { addQuestion: handleAddQuestion })(
+    withStyles(styles)(AddPoll)
+  )
+)
