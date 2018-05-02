@@ -1,3 +1,4 @@
+import { showLoading, hideLoading } from "react-redux-loading-bar"
 import {
   _getQuestions,
   _saveQuestion,
@@ -23,11 +24,26 @@ export const saveQuestionAnswer = info => ({
   info
 })
 
-export const fetchQuestions = () => dispatch =>
-  _getQuestions().then(questions => dispatch(questionsFetched(questions)))
+export const fetchQuestions = () => dispatch => {
+  dispatch(showLoading())
+  _getQuestions().then(questions => {
+    dispatch(questionsFetched(questions))
+    dispatch(hideLoading())
+  })
+}
 
-export const handleAddQuestion = question => dispatch =>
-  _saveQuestion(question).then(res => dispatch(addQuestion(res)))
+export const handleAddQuestion = question => dispatch => {
+  dispatch(showLoading())
+  _saveQuestion(question).then(res => {
+    dispatch(hideLoading())
+    dispatch(addQuestion(res))
+  })
+}
 
-export const handleAnserQuestion = info => dispatch =>
-  _saveQuestionAnswer(info).then(dispatch(saveQuestionAnswer(info)))
+export const handleAnserQuestion = info => dispatch => {
+  dispatch(showLoading())
+  _saveQuestionAnswer(info).then(() => {
+    dispatch(hideLoading())
+    dispatch(saveQuestionAnswer(info))
+  })
+}

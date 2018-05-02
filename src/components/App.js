@@ -2,6 +2,7 @@ import React, { Component, Fragment } from "react"
 import { BrowserRouter as Router, Route } from "react-router-dom"
 import { connect } from "react-redux"
 import PropTypes from "prop-types"
+import LoadingBar from "react-redux-loading-bar"
 import Questions from "./Questions"
 import LeftDrawer from "./LeftDrawer"
 import TopNav from "./TopNav"
@@ -21,7 +22,7 @@ class App extends Component {
     return (
       <Router>
         <Fragment>
-          {/* Add the loading bar here */}
+          <LoadingBar />
           <TopNav />
           <LeftDrawer />
           <PrivateRoute path="/" exact component={Questions} />
