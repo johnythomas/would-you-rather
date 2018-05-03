@@ -4,6 +4,7 @@ import {
   _saveQuestion,
   _saveQuestionAnswer
 } from "../util/_DATA"
+import { showMessage } from "./message"
 
 export const QUESTIONS_FETCHED = "QUESTIONS_FETCHED"
 export const ADD_QUESTION = "ADD_QUESTION"
@@ -37,6 +38,7 @@ export const handleAddQuestion = question => dispatch => {
   _saveQuestion(question).then(res => {
     dispatch(hideLoading())
     dispatch(addQuestion(res))
+    dispatch(showMessage("Poll Added Successfully"))
   })
 }
 
@@ -45,5 +47,6 @@ export const handleAnserQuestion = info => dispatch => {
   _saveQuestionAnswer(info).then(() => {
     dispatch(hideLoading())
     dispatch(saveQuestionAnswer(info))
+    dispatch(showMessage("Answer updated Successfully"))
   })
 }

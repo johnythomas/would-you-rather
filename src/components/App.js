@@ -12,6 +12,7 @@ import Leaderboard from "./Leaderboard"
 import AnswerPoll from "./AnswerPoll"
 import { fetchUsers } from "../actions/users"
 import PrivateRoute from "./PrivateRoute"
+import Message from "./Message"
 
 class App extends Component {
   componentDidMount() {
@@ -30,6 +31,7 @@ class App extends Component {
           <Route path="/login" component={Login} />
           <PrivateRoute path="/add" component={AddPoll} />
           <PrivateRoute path="/questions/:id" component={AnswerPoll} />
+          <Message />
         </Fragment>
       </Router>
     )
