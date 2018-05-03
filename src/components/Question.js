@@ -28,6 +28,12 @@ const Question = ({ author, question, authedUser }) => {
     author.id,
     "optionTwo"
   )
+
+  const isChecked = option =>
+    optionOnePercent !== 0 || optionTwoPercent !== 0
+      ? option.votes.includes(authedUser)
+      : null
+
   return (
     <Grid item xs={12} sm={6} lg={4} xl={3}>
       <Card>
@@ -44,12 +50,12 @@ const Question = ({ author, question, authedUser }) => {
             <List dense>
               <PollOption
                 text={optionOne.text}
-                isChecked={optionOne.votes.includes(authedUser)}
+                isChecked={isChecked(optionOne)}
                 percent={optionOnePercent}
               />
               <PollOption
                 text={optionTwo.text}
-                isChecked={optionTwo.votes.includes(authedUser)}
+                isChecked={isChecked(optionTwo)}
                 percent={optionTwoPercent}
               />
             </List>

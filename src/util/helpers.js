@@ -5,7 +5,9 @@ export const calculateVotePercent = (question, userId, option) => {
   const optionOneVotes = optionOne.votes.length
   const optionTwoVotes = optionTwo.votes.length
   const totalVotes = optionOneVotes + optionTwoVotes
-  return Math.round(question[option].votes.length / totalVotes * 100)
+  return totalVotes === 0
+    ? 0
+    : Math.round(question[option].votes.length / totalVotes * 100)
 }
 
 export const formatDate = timestamp => {
