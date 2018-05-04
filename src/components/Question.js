@@ -29,10 +29,11 @@ const Question = ({ author, question, authedUser }) => {
     "optionTwo"
   )
 
+  const isAnswered =
+    optionOne.votes.includes(authedUser) || optionTwo.votes.includes(authedUser)
+
   const isChecked = option =>
-    optionOnePercent !== 0 || optionTwoPercent !== 0
-      ? option.votes.includes(authedUser)
-      : null
+    isAnswered ? option.votes.includes(authedUser) : null
 
   return (
     <Grid item xs={12} sm={6} lg={4} xl={3}>
@@ -51,25 +52,29 @@ const Question = ({ author, question, authedUser }) => {
               <PollOption
                 text={optionOne.text}
                 isChecked={isChecked(optionOne)}
+                votes={optionOne.votes.length}
                 percent={optionOnePercent}
               />
               <PollOption
                 text={optionTwo.text}
                 isChecked={isChecked(optionTwo)}
+                votes={optionTwo.votes.length}
                 percent={optionTwoPercent}
               />
             </List>
           </div>
         </CardContent>
         <CardActions>
-          <Button
-            size="small"
-            color="primary"
-            component={Link}
-            to={`/questions/${question.id}`}
-          >
-            Answer
-          </Button>
+          {!isAnswered && (
+            <Button
+              size="small"
+              color="primary"
+              component={Link}
+              to={`/questions/${question.id}`}
+            >
+              Answer
+            </Button>
+          )}
           <IconButton aria-label="Delete" style={{ marginLeft: "auto" }}>
             <DeleteIcon />
           </IconButton>
