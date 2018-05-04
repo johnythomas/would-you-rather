@@ -2,84 +2,46 @@ import React from "react"
 import { Link } from "react-router-dom"
 import { connect } from "react-redux"
 import PropTypes from "prop-types"
-import {
-  Avatar,
-  Typography,
-  Card,
-  Button,
-  Grid,
-  List,
-  IconButton
-} from "material-ui"
-import { CardContent, CardActions, CardHeader } from "material-ui/Card"
-import DeleteIcon from "@material-ui/icons/Delete"
-import PollOption from "./PollOption"
-import { formatDate, calculateVotePercent } from "../util/helpers"
+import { Avatar, Typography, Card, Grid, List } from "material-ui"
+import { ListItem, ListItemText, ListItemIcon } from "material-ui/List"
+import { CardContent, CardHeader } from "material-ui/Card"
+import { formatDate } from "../util/helpers"
 
-const Question = ({ author, question, authedUser }) => {
+const Question = ({ author, question }) => {
   const { optionOne, optionTwo } = question
-  const optionOnePercent = calculateVotePercent(
-    question,
-    author.id,
-    "optionOne"
-  )
-  const optionTwoPercent = calculateVotePercent(
-    question,
-    author.id,
-    "optionTwo"
-  )
-
-  const isAnswered =
-    optionOne.votes.includes(authedUser) || optionTwo.votes.includes(authedUser)
-
-  const isChecked = option =>
-    isAnswered ? option.votes.includes(authedUser) : null
 
   return (
-    <Grid item xs={12} sm={6} lg={4} xl={3}>
-      <Card>
-        <CardHeader
-          avatar={<Avatar aria-label="Recipe" src={author.avatarURL} />}
-          title={author.name}
-          subheader={formatDate(question.timestamp)}
-        />
-        <CardContent>
-          <Typography gutterBottom variant="headline" component="h2">
-            Would You Rather
-          </Typography>
-          <div>
-            <List dense>
-              <PollOption
-                text={optionOne.text}
-                isChecked={isChecked(optionOne)}
-                votes={optionOne.votes.length}
-                percent={optionOnePercent}
-              />
-              <PollOption
-                text={optionTwo.text}
-                isChecked={isChecked(optionTwo)}
-                votes={optionTwo.votes.length}
-                percent={optionTwoPercent}
-              />
-            </List>
-          </div>
-        </CardContent>
-        <CardActions>
-          {!isAnswered && (
-            <Button
-              size="small"
-              color="primary"
-              component={Link}
-              to={`/questions/${question.id}`}
-            >
-              Answer
-            </Button>
-          )}
-          <IconButton aria-label="Delete" style={{ marginLeft: "auto" }}>
-            <DeleteIcon />
-          </IconButton>
-        </CardActions>
-      </Card>
+    <Grid item xs={12} sm={6} lg={4} xl={2}>
+      <Link style={{ textDecoration: "none" }} to={`/questions/${question.id}`}>
+        <Card>
+          <CardHeader
+            avatar={<Avatar aria-label="Recipe" src={author.avatarURL} />}
+            title={author.name}
+            subheader={formatDate(question.timestamp)}
+          />
+          <CardContent>
+            <Typography gutterBottom variant="headline" component="h2">
+              Would You Rather
+            </Typography>
+            <div>
+              <List dense>
+                <ListItem>
+                  <ListItemIcon>
+                    <Typography variant="headline">•</Typography>
+                  </ListItemIcon>
+                  <ListItemText>{optionOne.text}</ListItemText>
+                </ListItem>
+                <ListItem>
+                  <ListItemIcon>
+                    <Typography variant="headline">•</Typography>
+                  </ListItemIcon>
+                  <ListItemText>{optionTwo.text}</ListItemText>
+                </ListItem>
+              </List>
+            </div>
+          </CardContent>
+        </Card>
+      </Link>
     </Grid>
   )
 }
@@ -90,29 +52,25 @@ Question.propTypes = {
     author: PropTypes.string.isRequired,
     timestamp: PropTypes.number.isRequired,
     optionOne: PropTypes.shape({
-      text: PropTypes.string.isRequired,
-      votes: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired
+      text: PropTypes.string.isRequired
     }).isRequired,
     optionTwo: PropTypes.shape({
-      text: PropTypes.string.isRequired,
-      votes: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired
+      text: PropTypes.string.isRequired
     }).isRequired
   }).isRequired,
   author: PropTypes.shape({
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     avatarURL: PropTypes.string.isRequired
-  }).isRequired,
-  authedUser: PropTypes.string.isRequired
+  }).isRequired
 }
 
-const mapStateToProps = ({ questions, users, authedUser }, { id }) => {
+const mapStateToProps = ({ questions, users }, { id }) => {
   const question = questions[id]
   const author = question ? users[question.author] : {}
   return {
     question,
-    author,
-    authedUser
+    author
   }
 }
 
