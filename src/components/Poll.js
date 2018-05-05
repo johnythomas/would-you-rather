@@ -42,7 +42,6 @@ class Poll extends React.Component {
       authedUser,
       answer: this.state.value
     })
-    this.props.history.push("/")
   }
 
   render() {
@@ -113,6 +112,7 @@ class Poll extends React.Component {
                   <Button
                     color="primary"
                     variant="raised"
+                    disabled={!this.state.value}
                     onClick={this.handleSubmit}
                   >
                     Answer
