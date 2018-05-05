@@ -13,7 +13,7 @@ import AddPollButton from "./AddPollButton"
 
 const styles = theme => ({
   root: {
-    padding: 50
+    padding: 20
   },
   paper: {
     width: "100%",

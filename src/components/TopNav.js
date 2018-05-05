@@ -12,7 +12,7 @@ import {
 } from "material-ui"
 import Menu, { MenuItem } from "material-ui/Menu"
 import MenuIcon from "@material-ui/icons/Menu"
-import { ArrowDropDown } from "@material-ui/icons"
+import { MoreVert } from "@material-ui/icons"
 import { logout } from "../actions/authedUser"
 import { toggleDrawer } from "../actions/drawer"
 
@@ -27,9 +27,6 @@ const styles = {
   },
   name: {
     textTransform: "uppercase"
-  },
-  arrowdropDown: {
-    width: "14px"
   }
 }
 
@@ -84,13 +81,12 @@ class TopNav extends Component {
               />
               <div>
                 <IconButton
-                  className={classes.arrowdropDown}
                   aria-owns={open ? "menu-appbar" : null}
                   aria-haspopup="true"
                   onClick={this.handleMenu}
                   color="inherit"
                 >
-                  <ArrowDropDown />
+                  <MoreVert />
                 </IconButton>
                 <Menu
                   id="menu-appbar"
