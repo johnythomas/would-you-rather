@@ -106,8 +106,21 @@ class TopNav extends Component {
                   open={open}
                   onClose={this.handleClose}
                 >
-                  <MenuItem onClick={this.handleClose}>Profile</MenuItem>
-                  <MenuItem onClick={doLogout}>Logout</MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      this.handleClose()
+                    }}
+                  >
+                    Profile
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      this.handleClose()
+                      doLogout()
+                    }}
+                  >
+                    Logout
+                  </MenuItem>
                 </Menu>
               </div>
             </Fragment>
