@@ -151,10 +151,7 @@ Poll.propTypes = {
   }),
   authedUser: PropTypes.string.isRequired,
   isAnswered: PropTypes.bool.isRequired,
-  saveAnswer: PropTypes.func.isRequired,
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired
-  }).isRequired
+  saveAnswer: PropTypes.func.isRequired
 }
 
 Poll.defaultProps = {
