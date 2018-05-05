@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react"
-import { BrowserRouter as Router, Route } from "react-router-dom"
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
 import { connect } from "react-redux"
 import PropTypes from "prop-types"
 import LoadingBar from "react-redux-loading-bar"
@@ -13,6 +13,7 @@ import Poll from "./Poll"
 import { fetchUsers } from "../actions/users"
 import PrivateRoute from "./PrivateRoute"
 import Message from "./Message"
+import NotFound from "./NotFound"
 
 class App extends Component {
   componentDidMount() {
@@ -26,11 +27,14 @@ class App extends Component {
           <LoadingBar />
           <TopNav />
           <LeftDrawer />
-          <PrivateRoute path="/" exact component={Questions} />
-          <PrivateRoute path="/leaderboard" component={Leaderboard} />
-          <Route path="/login" component={Login} />
-          <PrivateRoute path="/add" component={AddPoll} />
-          <PrivateRoute path="/questions/:id" component={Poll} />
+          <Switch>
+            <PrivateRoute path="/" exact component={Questions} />
+            <PrivateRoute path="/leaderboard" component={Leaderboard} />
+            <Route path="/login" component={Login} />
+            <PrivateRoute path="/add" component={AddPoll} />
+            <PrivateRoute path="/questions/:id" component={Poll} />
+            <Route component={NotFound} />
+          </Switch>
           <Message />
         </Fragment>
       </Router>
