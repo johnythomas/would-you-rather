@@ -9,7 +9,7 @@ import TopNav from "./TopNav"
 import Login from "./Login"
 import AddPoll from "./AddPoll"
 import Leaderboard from "./Leaderboard"
-import AnswerPoll from "./AnswerPoll"
+import Poll from "./Poll"
 import { fetchUsers } from "../actions/users"
 import PrivateRoute from "./PrivateRoute"
 import Message from "./Message"
@@ -30,7 +30,7 @@ class App extends Component {
           <PrivateRoute path="/leaderboard" component={Leaderboard} />
           <Route path="/login" component={Login} />
           <PrivateRoute path="/add" component={AddPoll} />
-          <PrivateRoute path="/questions/:id" component={AnswerPoll} />
+          <PrivateRoute path="/questions/:id" component={Poll} />
           <Message />
         </Fragment>
       </Router>

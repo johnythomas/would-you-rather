@@ -11,7 +11,7 @@ const Question = ({ author, question }) => {
   const { optionOne, optionTwo } = question
 
   return (
-    <Grid item xs={12} sm={6} lg={4} xl={2}>
+    <Grid item xs={12} sm={6} lg={4} xl={3}>
       <Link style={{ textDecoration: "none" }} to={`/questions/${question.id}`}>
         <Card>
           <CardHeader

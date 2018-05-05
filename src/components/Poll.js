@@ -8,15 +8,17 @@ import {
   Button,
   Grid,
   IconButton,
+  List,
   withStyles
 } from "material-ui"
 import { CardContent, CardActions, CardHeader } from "material-ui/Card"
 import DeleteIcon from "@material-ui/icons/Delete"
 import Radio, { RadioGroup } from "material-ui/Radio"
 import { FormControl, FormControlLabel } from "material-ui/Form"
-import { formatDate } from "../util/helpers"
+import { formatDate, calculateVotePercent } from "../util/helpers"
 import { handleAnserQuestion } from "../actions/questions"
 import AddPollButton from "./AddPollButton"
+import PollOption from "./PollOption"
 
 const styles = {
   margin: {
@@ -24,7 +26,7 @@ const styles = {
   }
 }
 
-class AnswerPoll extends React.Component {
+class Poll extends React.Component {
   state = {
     value: ""
   }
@@ -44,7 +46,7 @@ class AnswerPoll extends React.Component {
   }
 
   render() {
-    const { classes, question, author } = this.props
+    const { classes, question, author, isAnswered, authedUser } = this.props
     if (!question) {
       return <div>question not present</div>
     }
@@ -54,8 +56,8 @@ class AnswerPoll extends React.Component {
     return (
       <Fragment>
         <Grid container className={classes.margin}>
-          <Grid item xs={1} sm={3} lg={4} xl={5} />
-          <Grid item xs={10} sm={6} lg={4} xl={2}>
+          <Grid item xs={1} sm={3} lg={4} xl={4} />
+          <Grid item xs={10} sm={6} lg={4} xl={3}>
             <Card>
               <CardHeader
                 avatar={<Avatar aria-label="Recipe" src={author.avatarURL} />}
@@ -67,32 +69,55 @@ class AnswerPoll extends React.Component {
                   Would You Rather
                 </Typography>
 
-                <FormControl component="fieldset" required>
-                  <RadioGroup
-                    value={this.state.value}
-                    onChange={this.handleChange}
-                  >
-                    <FormControlLabel
-                      value="optionOne"
-                      control={<Radio />}
-                      label={optionOne.text}
-                    />
-                    <FormControlLabel
-                      value="optionTwo"
-                      control={<Radio />}
-                      label={optionTwo.text}
-                    />
-                  </RadioGroup>
-                </FormControl>
+                {!isAnswered && (
+                  <FormControl component="fieldset" required>
+                    <RadioGroup
+                      value={this.state.value}
+                      onChange={this.handleChange}
+                    >
+                      <FormControlLabel
+                        value="optionOne"
+                        control={<Radio />}
+                        label={optionOne.text}
+                      />
+                      <FormControlLabel
+                        value="optionTwo"
+                        control={<Radio />}
+                        label={optionTwo.text}
+                      />
+                    </RadioGroup>
+                  </FormControl>
+                )}
+
+                {isAnswered && (
+                  <div>
+                    <List dense>
+                      <PollOption
+                        text={optionOne.text}
+                        isChecked={optionOne.votes.includes(authedUser)}
+                        votes={optionOne.votes.length}
+                        percent={optionOne.percent}
+                      />
+                      <PollOption
+                        text={optionTwo.text}
+                        isChecked={optionTwo.votes.includes(authedUser)}
+                        votes={optionTwo.votes.length}
+                        percent={optionTwo.percent}
+                      />
+                    </List>
+                  </div>
+                )}
               </CardContent>
               <CardActions>
-                <Button
-                  color="primary"
-                  variant="raised"
-                  onClick={this.handleSubmit}
-                >
-                  Answer
-                </Button>
+                {!isAnswered && (
+                  <Button
+                    color="primary"
+                    variant="raised"
+                    onClick={this.handleSubmit}
+                  >
+                    Answer
+                  </Button>
+                )}
                 <IconButton aria-label="Delete" style={{ marginLeft: "auto" }}>
                   <DeleteIcon />
                 </IconButton>
@@ -106,7 +131,7 @@ class AnswerPoll extends React.Component {
   }
 }
 
-AnswerPoll.propTypes = {
+Poll.propTypes = {
   classes: PropTypes.shape({
     margin: PropTypes.string.isRequired
   }).isRequired,
@@ -125,13 +150,14 @@ AnswerPoll.propTypes = {
     avatarURL: PropTypes.string.isRequired
   }),
   authedUser: PropTypes.string.isRequired,
+  isAnswered: PropTypes.bool.isRequired,
   saveAnswer: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired
   }).isRequired
 }
 
-AnswerPoll.defaultProps = {
+Poll.defaultProps = {
   question: null,
   author: null
 }
@@ -139,13 +165,23 @@ AnswerPoll.defaultProps = {
 const mapStateToProps = ({ questions, users, authedUser }, props) => {
   const { id } = props.match.params
   const question = questions[id]
+  let isAnswered = false
+  if (question) {
+    question.optionOne.percent = calculateVotePercent(question, "optionOne")
+    question.optionTwo.percent = calculateVotePercent(question, "optionTwo")
+    const { optionOne, optionTwo } = question
+    isAnswered =
+      optionOne.votes.includes(authedUser) ||
+      optionTwo.votes.includes(authedUser)
+  }
   return {
     question,
     author: question ? users[question.author] : null,
-    authedUser
+    authedUser,
+    isAnswered
   }
 }
 
 export default connect(mapStateToProps, { saveAnswer: handleAnserQuestion })(
-  withStyles(styles)(AnswerPoll)
+  withStyles(styles)(Poll)
 )

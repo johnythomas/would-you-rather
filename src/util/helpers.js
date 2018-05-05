@@ -1,6 +1,6 @@
 import { QuestionFilters } from "../actions/questionVisibilityFilter"
 
-export const calculateVotePercent = (question, userId, option) => {
+export const calculateVotePercent = (question, option) => {
   const { optionOne, optionTwo } = question
   const optionOneVotes = optionOne.votes.length
   const optionTwoVotes = optionTwo.votes.length
