@@ -1,6 +1,7 @@
 import React, { Fragment } from "react"
 import PropTypes from "prop-types"
 import { connect } from "react-redux"
+import { Redirect } from "react-router-dom"
 import {
   Avatar,
   Typography,
@@ -45,9 +46,21 @@ class Poll extends React.Component {
   }
 
   render() {
-    const { classes, question, author, isAnswered, authedUser } = this.props
+    const {
+      classes,
+      question,
+      author,
+      isAnswered,
+      authedUser,
+      isLoading
+    } = this.props
+
+    if (!isLoading && !question) {
+      return <Redirect to="/404" />
+    }
+
     if (!question) {
-      return <div>question not present</div>
+      return <div />
     }
 
     const { optionOne, optionTwo } = question
@@ -151,6 +164,7 @@ Poll.propTypes = {
   }),
   authedUser: PropTypes.string.isRequired,
   isAnswered: PropTypes.bool.isRequired,
+  isLoading: PropTypes.bool.isRequired,
   saveAnswer: PropTypes.func.isRequired
 }
 
@@ -159,7 +173,10 @@ Poll.defaultProps = {
   author: null
 }
 
-const mapStateToProps = ({ questions, users, authedUser }, props) => {
+const mapStateToProps = (
+  { questions, users, authedUser, loadingBar },
+  props
+) => {
   const { id } = props.match.params
   const question = questions[id]
   let isAnswered = false
@@ -175,7 +192,8 @@ const mapStateToProps = ({ questions, users, authedUser }, props) => {
     question,
     author: question ? users[question.author] : null,
     authedUser,
-    isAnswered
+    isAnswered,
+    isLoading: loadingBar.default === 1
   }
 }
 
