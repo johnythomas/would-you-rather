@@ -17,7 +17,7 @@ import DeleteIcon from "@material-ui/icons/Delete"
 import Radio, { RadioGroup } from "material-ui/Radio"
 import { FormControl, FormControlLabel } from "material-ui/Form"
 import { formatDate, calculateVotePercent } from "../util/helpers"
-import { handleAnserQuestion } from "../actions/questions"
+import { handleAnserQuestion, handleDeleteQuestion } from "../actions/questions"
 import AddPollButton from "./AddPollButton"
 import PollOption from "./PollOption"
 
@@ -52,7 +52,9 @@ class Poll extends React.Component {
       author,
       isAnswered,
       authedUser,
-      isLoading
+      isLoading,
+      deleteQuestion,
+      history
     } = this.props
 
     if (!isLoading && !question) {
@@ -131,9 +133,18 @@ class Poll extends React.Component {
                     Answer
                   </Button>
                 )}
-                <IconButton aria-label="Delete" style={{ marginLeft: "auto" }}>
-                  <DeleteIcon />
-                </IconButton>
+                {question.author === authedUser && (
+                  <IconButton
+                    aria-label="Delete"
+                    style={{ marginLeft: "auto" }}
+                    onClick={() => {
+                      deleteQuestion(question.id)
+                      history.push("/")
+                    }}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                )}
               </CardActions>
             </Card>
           </Grid>
@@ -165,7 +176,11 @@ Poll.propTypes = {
   authedUser: PropTypes.string.isRequired,
   isAnswered: PropTypes.bool.isRequired,
   isLoading: PropTypes.bool.isRequired,
-  saveAnswer: PropTypes.func.isRequired
+  saveAnswer: PropTypes.func.isRequired,
+  deleteQuestion: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired
+  }).isRequired
 }
 
 Poll.defaultProps = {
@@ -197,6 +212,7 @@ const mapStateToProps = (
   }
 }
 
-export default connect(mapStateToProps, { saveAnswer: handleAnserQuestion })(
-  withStyles(styles)(Poll)
-)
+export default connect(mapStateToProps, {
+  saveAnswer: handleAnserQuestion,
+  deleteQuestion: handleDeleteQuestion
+})(withStyles(styles)(Poll))
