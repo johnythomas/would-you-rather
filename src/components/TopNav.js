@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react"
 import PropTypes from "prop-types"
 import { connect } from "react-redux"
-import { Link } from "react-router-dom"
+import { Link, withRouter } from "react-router-dom"
 import {
   AppBar,
   Toolbar,
@@ -44,7 +44,7 @@ class TopNav extends Component {
   }
 
   render() {
-    const { classes, toggleDrawerState, user, doLogout } = this.props
+    const { classes, toggleDrawerState, user, doLogout, history } = this.props
     const { anchorEl } = this.state
     const open = Boolean(anchorEl)
     return (
@@ -105,6 +105,7 @@ class TopNav extends Component {
                   <MenuItem
                     onClick={() => {
                       this.handleClose()
+                      history.push("/profile")
                     }}
                   >
                     Profile
@@ -133,6 +134,9 @@ TopNav.propTypes = {
   user: PropTypes.shape({
     avatarURL: PropTypes.string.isRequired
   }),
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired
+  }).isRequired,
   classes: PropTypes.shape({
     profilePic: PropTypes.string.isRequired,
     pageTitleLink: PropTypes.string.isRequired
@@ -147,7 +151,9 @@ const mapStateToProps = ({ authedUser, users }) => ({
   user: users[authedUser]
 })
 
-export default connect(mapStateToProps, {
-  doLogout: logout,
-  toggleDrawerState: toggleDrawer
-})(withStyles(styles)(TopNav))
+export default withRouter(
+  connect(mapStateToProps, {
+    doLogout: logout,
+    toggleDrawerState: toggleDrawer
+  })(withStyles(styles)(TopNav))
+)
