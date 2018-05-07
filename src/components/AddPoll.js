@@ -8,15 +8,13 @@ import {
   Grid,
   Button,
   Divider,
-  Input,
+  TextField,
   withStyles
 } from "material-ui"
 import { CardActions } from "material-ui/Card"
-import { InputLabel } from "material-ui/Input"
-import { FormControl } from "material-ui/Form"
 import { handleAddQuestion } from "../actions/questions"
 
-const styles = theme => ({
+const styles = {
   cardAction: {
     padding: 20
   },
@@ -24,10 +22,12 @@ const styles = theme => ({
     marginTop: 10,
     marginBottom: 10
   },
-  margin: {
-    margin: theme.spacing.unit * 3
+  formCard: {
+    textAlign: "center",
+    marginTop: 20,
+    padding: 10
   }
-})
+}
 
 class AddPoll extends Component {
   state = {
@@ -42,7 +42,10 @@ class AddPoll extends Component {
     }))
   }
 
-  handleSubmit = () => {
+  handleSubmit = e => {
+    e.preventDefault()
+    if (!this.isFormValid()) return
+
     this.props.addQuestion({
       author: this.props.authedUser,
       optionOneText: this.state.optionOne,
@@ -51,53 +54,71 @@ class AddPoll extends Component {
     this.props.history.push("/")
   }
 
+  isFormValid = () => !!this.state.optionOne && !!this.state.optionTwo
+
   render() {
     const { classes } = this.props
-    const isFormValid = !!this.state.optionOne && !!this.state.optionTwo
+    const isFormValid = this.isFormValid()
     return (
       <Fragment>
         <Grid container style={{ marginTop: 40 }}>
           <Grid item xs={1} sm={2} md={3} lg={4} xl={4} />
           <Grid item xs={10} sm={8} md={6} lg={4} xl={4}>
-            <Card style={{ textAlign: "center", marginTop: 20 }}>
-              <Typography
-                color="primary"
-                className={classes.addPollHeading}
-                variant="display3"
+            <Card>
+              <form
+                className={classes.formCard}
+                autoComplete="off"
+                onSubmit={this.handleSubmit}
               >
-                Would You Rather
-              </Typography>
-              <Divider />
-              <FormControl fullWidth className={classes.margin}>
-                <InputLabel htmlFor="optionOne">Option 1</InputLabel>
-                <Input
+                <Typography
+                  color="primary"
+                  className={classes.addPollHeading}
+                  variant="display1"
+                >
+                  Would You Rather
+                </Typography>
+                <Divider />
+                <TextField
                   id="optionOne"
                   name="optionOne"
                   onChange={this.handleChange}
                   value={this.state.optionOne}
+                  label="option 1"
+                  InputLabelProps={{
+                    shrink: true
+                  }}
+                  placeholder="enter option 1"
+                  fullWidth
+                  margin="normal"
+                  className={classes.margin}
                 />
-              </FormControl>
-              <FormControl fullWidth className={classes.margin}>
-                <InputLabel htmlFor="optionTwo">Option 2</InputLabel>
-                <Input
+                <TextField
                   id="optionTwo"
                   name="optionTwo"
                   onChange={this.handleChange}
                   value={this.state.optionTwo}
+                  label="option 2"
+                  InputLabelProps={{
+                    shrink: true
+                  }}
+                  placeholder="enter option 2"
+                  fullWidth
+                  margin="normal"
+                  className={classes.margin}
                 />
-              </FormControl>
-              <Divider />
-              <CardActions className={classes.cardAction}>
-                <Button
-                  variant="raised"
-                  color="primary"
-                  style={{ marginLeft: "auto" }}
-                  disabled={!isFormValid}
-                  onClick={this.handleSubmit}
-                >
-                  Save
-                </Button>
-              </CardActions>
+                <Divider />
+                <CardActions className={classes.cardAction}>
+                  <Button
+                    type="submit"
+                    variant="raised"
+                    color="primary"
+                    style={{ marginLeft: "auto" }}
+                    disabled={!isFormValid}
+                  >
+                    Save
+                  </Button>
+                </CardActions>
+              </form>
             </Card>
           </Grid>
         </Grid>
@@ -110,7 +131,7 @@ AddPoll.propTypes = {
   classes: PropTypes.shape({
     cardAction: PropTypes.string.isRequired,
     addPollHeading: PropTypes.string.isRequired,
-    margin: PropTypes.string.isRequired
+    formCard: PropTypes.string.isRequired
   }).isRequired,
   authedUser: PropTypes.string.isRequired,
   addQuestion: PropTypes.func.isRequired,
