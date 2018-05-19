@@ -12,7 +12,6 @@ import {
   Paper,
   withStyles
 } from "@material-ui/core"
-import AddPollButton from "./AddPollButton"
 
 const styles = theme => ({
   root: {
@@ -63,7 +62,6 @@ function Leaderboard(props) {
           </Table>
         </Paper>
       </Grid>
-      <AddPollButton />
     </Fragment>
   )
 }

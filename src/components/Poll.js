@@ -22,7 +22,6 @@ import {
 import DeleteIcon from "@material-ui/icons/Delete"
 import { formatDate, calculateVotePercent } from "../util/helpers"
 import { handleAnserQuestion, handleDeleteQuestion } from "../actions/questions"
-import AddPollButton from "./AddPollButton"
 import PollOption from "./PollOption"
 
 const styles = {
@@ -153,7 +152,6 @@ class Poll extends React.Component {
             </Card>
           </Grid>
         </Grid>
-        <AddPollButton />
       </Fragment>
     )
   }
