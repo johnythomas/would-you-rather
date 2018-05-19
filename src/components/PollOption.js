@@ -20,10 +20,12 @@ const styles = theme => ({
 
 const PollOption = ({ classes, isChecked, text, votes, percent }) => (
   <ListItem>
-    <ListItemIcon>
-      {isChecked ? <Done className={classes.radioBtn} /> : <span />}
-    </ListItemIcon>
-    <ListItemText>
+    {isChecked && (
+      <ListItemIcon>
+        <Done className={classes.radioBtn} />
+      </ListItemIcon>
+    )}
+    <ListItemText inset>
       {text}
       {`(${votes} votes | ${percent}%)`}
       <LinearProgress
