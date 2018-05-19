@@ -1,14 +1,17 @@
 import React, { Fragment } from "react"
 import PropTypes from "prop-types"
 import { connect } from "react-redux"
-import { Grid, Avatar, withStyles } from "material-ui"
-import Table, {
+import {
+  Grid,
+  Avatar,
+  Table,
   TableBody,
   TableCell,
   TableHead,
-  TableRow
-} from "material-ui/Table"
-import Paper from "material-ui/Paper"
+  TableRow,
+  Paper,
+  withStyles
+} from "@material-ui/core"
 import AddPollButton from "./AddPollButton"
 
 const styles = theme => ({

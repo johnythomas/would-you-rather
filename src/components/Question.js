@@ -2,9 +2,16 @@ import React from "react"
 import { Link } from "react-router-dom"
 import { connect } from "react-redux"
 import PropTypes from "prop-types"
-import { Typography, Card, Grid, List } from "material-ui"
-import { ListItem, ListItemText, ListItemIcon } from "material-ui/List"
-import { CardContent } from "material-ui/Card"
+import {
+  Typography,
+  Card,
+  Grid,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemIcon,
+  CardContent
+} from "@material-ui/core"
 
 const Question = ({ question }) => {
   const { optionOne, optionTwo } = question

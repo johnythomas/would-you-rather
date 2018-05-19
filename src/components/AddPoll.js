@@ -9,9 +9,9 @@ import {
   Button,
   Divider,
   TextField,
+  CardActions,
   withStyles
-} from "material-ui"
-import { CardActions } from "material-ui/Card"
+} from "@material-ui/core"
 import { handleAddQuestion } from "../actions/questions"
 
 const styles = {

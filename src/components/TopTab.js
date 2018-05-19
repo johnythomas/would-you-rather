@@ -1,8 +1,7 @@
 import React from "react"
 import { connect } from "react-redux"
 import PropTypes from "prop-types"
-import { Paper } from "material-ui"
-import Tabs, { Tab } from "material-ui/Tabs"
+import { Paper, Tabs, Tab } from "@material-ui/core"
 import {
   toggleQuestionVisibilityFilter,
   QuestionFilters

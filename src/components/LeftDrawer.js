@@ -2,8 +2,15 @@ import React from "react"
 import PropTypes from "prop-types"
 import { connect } from "react-redux"
 import { Link } from "react-router-dom"
-import { Drawer, Divider, List, withStyles } from "material-ui"
-import { ListItem, ListItemIcon, ListItemText } from "material-ui/List"
+import {
+  Drawer,
+  Divider,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  withStyles
+} from "@material-ui/core"
 import { Add, TrendingUp, Home } from "@material-ui/icons"
 import { DrawerState, toggleDrawer } from "../actions/drawer"
 

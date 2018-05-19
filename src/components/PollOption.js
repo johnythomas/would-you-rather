@@ -1,7 +1,12 @@
 import React from "react"
 import PropTypes from "prop-types"
-import { LinearProgress, withStyles } from "material-ui"
-import { ListItem, ListItemIcon, ListItemText } from "material-ui/List"
+import {
+  LinearProgress,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  withStyles
+} from "@material-ui/core"
 import { Done } from "@material-ui/icons"
 
 const styles = theme => ({

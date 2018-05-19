@@ -1,6 +1,6 @@
 import React, { Fragment } from "react"
 import PropTypes from "prop-types"
-import { Grid, withStyles } from "material-ui"
+import { Grid, withStyles } from "@material-ui/core"
 import Question from "./Question"
 import AddPollButton from "./AddPollButton"
 

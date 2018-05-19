@@ -10,12 +10,16 @@ import {
   Grid,
   IconButton,
   List,
+  FormControl,
+  FormControlLabel,
+  CardContent,
+  CardActions,
+  CardHeader,
+  RadioGroup,
+  Radio,
   withStyles
-} from "material-ui"
-import { CardContent, CardActions, CardHeader } from "material-ui/Card"
+} from "@material-ui/core"
 import DeleteIcon from "@material-ui/icons/Delete"
-import Radio, { RadioGroup } from "material-ui/Radio"
-import { FormControl, FormControlLabel } from "material-ui/Form"
 import { formatDate, calculateVotePercent } from "../util/helpers"
 import { handleAnserQuestion, handleDeleteQuestion } from "../actions/questions"
 import AddPollButton from "./AddPollButton"

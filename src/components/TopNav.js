@@ -8,9 +8,10 @@ import {
   IconButton,
   Typography,
   Avatar,
+  Menu,
+  MenuItem,
   withStyles
-} from "material-ui"
-import Menu, { MenuItem } from "material-ui/Menu"
+} from "@material-ui/core"
 import MenuIcon from "@material-ui/icons/Menu"
 import { MoreVert } from "@material-ui/icons"
 import { logout } from "../actions/authedUser"

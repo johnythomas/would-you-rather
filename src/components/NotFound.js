@@ -1,7 +1,13 @@
 import React from "react"
 import PropTypes from "prop-types"
-import { Typography, Button, withStyles } from "material-ui"
-import Card, { CardContent, CardActions } from "material-ui/Card"
+import {
+  Typography,
+  Button,
+  CardContent,
+  CardActions,
+  Card,
+  withStyles
+} from "@material-ui/core"
 
 const styles = {
   container: {

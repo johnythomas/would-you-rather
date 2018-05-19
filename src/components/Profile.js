@@ -1,7 +1,7 @@
 import React from "react"
 import { connect } from "react-redux"
 import PropTypes from "prop-types"
-import { Typography, Avatar, withStyles } from "material-ui"
+import { Typography, Avatar, withStyles } from "@material-ui/core"
 import Questions from "./Questions"
 
 const styles = {

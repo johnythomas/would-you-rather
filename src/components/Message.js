@@ -1,7 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 import { connect } from "react-redux"
-import { Snackbar } from "material-ui"
+import { Snackbar } from "@material-ui/core"
 import { hideMessage } from "../actions/message"
 
 const Message = ({ message, open, handleClose }) => (
@@ -9,9 +9,6 @@ const Message = ({ message, open, handleClose }) => (
     anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
     open={open}
     onClose={handleClose}
-    SnackbarContentProps={{
-      "aria-describedby": "message"
-    }}
     autoHideDuration={3000}
     message={<span id="mesage">{message}</span>}
   />

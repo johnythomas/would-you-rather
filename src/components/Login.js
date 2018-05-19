@@ -9,9 +9,9 @@ import {
   Button,
   Divider,
   List,
+  CardActions,
   withStyles
-} from "material-ui"
-import { CardActions } from "material-ui/Card"
+} from "@material-ui/core"
 import User from "./User"
 import { setAuthedUser } from "../actions/authedUser"
 import { fetchQuestions } from "../actions/questions"
