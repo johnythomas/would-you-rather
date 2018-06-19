@@ -8,10 +8,9 @@ export const usersFetched = users => ({
   users
 })
 
-export const fetchUsers = () => dispatch => {
+export const fetchUsers = () => async dispatch => {
   dispatch(showLoading())
-  _getUsers().then(users => {
-    dispatch(usersFetched(users))
-    dispatch(hideLoading())
-  })
+  const users = await _getUsers()
+  dispatch(usersFetched(users))
+  dispatch(hideLoading())
 }

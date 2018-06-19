@@ -32,37 +32,33 @@ export const deleteQuestion = qid => ({
   qid
 })
 
-export const fetchQuestions = () => dispatch => {
+export const fetchQuestions = () => async dispatch => {
   dispatch(showLoading())
-  _getQuestions().then(questions => {
-    dispatch(questionsFetched(questions))
-    dispatch(hideLoading())
-  })
+  const questions = await _getQuestions()
+  dispatch(questionsFetched(questions))
+  dispatch(hideLoading())
 }
 
-export const handleAddQuestion = question => dispatch => {
+export const handleAddQuestion = question => async dispatch => {
   dispatch(showLoading())
-  _saveQuestion(question).then(res => {
-    dispatch(hideLoading())
-    dispatch(addQuestion(res))
-    dispatch(showMessage("Poll Added Successfully"))
-  })
+  const res = await _saveQuestion(question)
+  dispatch(hideLoading())
+  dispatch(addQuestion(res))
+  dispatch(showMessage("Poll Added Successfully"))
 }
 
-export const handleAnserQuestion = info => dispatch => {
+export const handleAnserQuestion = info => async dispatch => {
   dispatch(showLoading())
-  _saveQuestionAnswer(info).then(() => {
-    dispatch(hideLoading())
-    dispatch(saveQuestionAnswer(info))
-    dispatch(showMessage("Answer updated Successfully"))
-  })
+  await _saveQuestionAnswer(info)
+  dispatch(hideLoading())
+  dispatch(saveQuestionAnswer(info))
+  dispatch(showMessage("Answer updated Successfully"))
 }
 
-export const handleDeleteQuestion = qid => dispatch => {
+export const handleDeleteQuestion = qid => async dispatch => {
   dispatch(showLoading())
-  _deleteQuestion(qid).then(() => {
-    dispatch(hideLoading())
-    dispatch(deleteQuestion(qid))
-    dispatch(showMessage("Question deleted successfully"))
-  })
+  await _deleteQuestion(qid)
+  dispatch(hideLoading())
+  dispatch(deleteQuestion(qid))
+  dispatch(showMessage("Question deleted successfully"))
 }
